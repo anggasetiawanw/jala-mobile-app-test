@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: core,mobile_kit
+dependency_overrides:
+  core:
+    path: ../core
+  mobile_kit:
+    path: ../mobile_kit

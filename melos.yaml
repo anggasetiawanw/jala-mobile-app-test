@@ -1,0 +1,13 @@
+name: mis_app
+
+packages:
+  - ./**
+command:
+  bootstrap:
+    runPubGetInParallel: false
+
+scripts:
+  # build runner build
+  build-core:
+    run: dart pub global run melos exec --scope="*core*" --depends-on="build_runner" "dart run build_runner build --delete-conflicting-outputs"
+    description: build_runner build core module.
