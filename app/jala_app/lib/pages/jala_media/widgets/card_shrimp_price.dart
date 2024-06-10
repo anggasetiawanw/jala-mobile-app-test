@@ -1,14 +1,16 @@
 import 'package:app_dependencies/dependecies.dart';
 import 'package:flutter/material.dart';
-import 'package:jala_app/pages/jala_media/core/models/supplier/supplier.dart';
+import 'package:jala_app/core/models/supplier/supplier.dart';
 
 class CardShrimpPrice extends StatelessWidget {
   final Supplier supplier;
   final int size;
+  final Function() onTap;
   const CardShrimpPrice({
     super.key,
     required this.supplier,
     required this.size,
+    required this.onTap,
   });
 
   @override
@@ -29,13 +31,8 @@ class CardShrimpPrice extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundColor: AppColors.primaryBlue,
-                      child: Text(
-                        "1",
-                        style: AppTextStyle.whiteTextStyle.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      backgroundImage: NetworkImage(
+                        "https://app.jala.tech/storage/${supplier.creator?.avatar}",
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -134,7 +131,7 @@ class CardShrimpPrice extends StatelessWidget {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryBlue, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))),
-                      onPressed: () {},
+                      onPressed: onTap,
                       child: Text("LIHAT DETAIL", style: AppTextStyle.whiteTextStyle.copyWith(fontWeight: FontWeight.w700)),
                     )
                   ],

@@ -327,6 +327,11 @@ class Convert {
     return totalTime.inDays;
   }
 
+  static String getFullDate(String dateString) {
+    DateTime dateTime = getDatetime(dateString);
+    return '${getDay(dateTime)} ${getMonth(dateTime)} ${getYear(dateTime)}';
+  }
+
   static int? getPriceShrimpBySize(dynamic data, int size) {
     if (size == 20) {
       return data.size20 ?? 0;

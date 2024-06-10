@@ -1,26 +1,26 @@
 import 'package:app_dependencies/dependecies.dart';
-import 'package:jala_app/pages/jala_media/core/models/region/region.dart';
 
-import '../../../../utils/network_service.dart';
+import '../../utils/network_service.dart';
+import '../models/diases_news/diases_news.dart';
 
-class RegionService {
-    static Future<Either<AppException, List<Region>>> getShrimpPrice(String name) async {
+class DiasesNewsService {
+  static Future<Either<AppException, List<DiasesNews>>> getShrimpNews() async {
     try {
       final response = await NetworkApp.service.get(
-        "/regions",
+        "/diseases",
         queryParameters: {
-          "has": "shrimp_prices",
-          "search": name,
+          "per_page": 15,
+          "page": 1,
         },
       );
       return response.fold((exp) {
         return Left(exp);
       }, (response) {
-        final List<Region> regions = [];
-        response.data.forEach((region) {
-          regions.add(Region.fromJson(region));
+        final List<DiasesNews> diasesNews = [];
+        response.data.forEach((diaseNews) {
+          diasesNews.add(DiasesNews.fromJson(diaseNews));
         });
-        return Right(regions);
+        return Right(diasesNews);
       });
     } catch (e) {
       return Left(

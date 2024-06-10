@@ -3,17 +3,25 @@ import 'dart:async';
 import 'package:app_dependencies/dependecies.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jala_app/pages/jala_media/core/service/region_service.dart';
+import 'package:jala_app/core/models/diases_news/diases_news.dart';
+import 'package:jala_app/core/models/shrimp_news/shrimp_news.dart';
+import 'package:jala_app/core/service/diases_news_service.dart';
+import 'package:jala_app/core/service/region_service.dart';
 
-import '../../core/models/region/region.dart';
-import '../../core/models/supplier/supplier.dart';
-import '../../core/service/shrimp_price_service.dart';
+import '../../../../core/models/region/region.dart';
+import '../../../../core/models/supplier/supplier.dart';
+import '../../../../core/service/shrimp_news_service.dart';
+import '../../../../core/service/shrimp_price_service.dart';
 
 class JalaMediaController extends GetxController with GetSingleTickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
+  final ScrollController newsScrollController = ScrollController();
+  final ScrollController diaseScrollController = ScrollController();
 
   RxBool isLoadingPriceShrimp = false.obs;
+  RxBool isLoadingNewsShrimp = false.obs;
+  RxBool isLoadingDiaseShrimp = false.obs;
   RxBool isLoadingSearchRegion = false.obs;
 
   RxInt selectedSize = 100.obs;
@@ -23,6 +31,8 @@ class JalaMediaController extends GetxController with GetSingleTickerProviderSta
   List listSizeShrimp = [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200];
   RxList<Region> listLocationShrimp = <Region>[].obs;
   List<Supplier> listSupplier = [];
+  List<ShrimpNews> listShrimpNews = [];
+  List<DiasesNews> listDiasesNews = [];
 
   Timer? debounce;
   @override
@@ -35,7 +45,37 @@ class JalaMediaController extends GetxController with GetSingleTickerProviderSta
   @override
   void onReady() {
     super.onReady();
+    getDiasesNews();
+    getShrimpNews();
     getShrimpPrice();
+  }
+
+  void getShrimpNews() async {
+    isLoadingNewsShrimp.value = true;
+    ShrimpNewsService.getShrimpNews().then((response) => response.fold((error) {
+          CustomSnackBar.showCustomErrorSnackBar(title: "Error", message: error.message);
+        }, (data) {
+          listShrimpNews = data;
+        }));
+    isLoadingNewsShrimp.value = false;
+  }
+
+  void getDiasesNews() async {
+    isLoadingDiaseShrimp.value = true;
+    DiasesNewsService.getShrimpNews().then((response) => response.fold((error) {
+          CustomSnackBar.showCustomErrorSnackBar(title: "Error", message: error.message);
+        }, (data) {
+          listDiasesNews = data;
+        }));
+    isLoadingDiaseShrimp.value = false;
+  }
+
+  void shareNews(int? id) {
+    Share.shareUri(Uri.parse("https://app.jala.tech/posts/$id"));
+  }
+
+  void shareDiases(int? id) {
+    Share.shareUri(Uri.parse("https://app.jala.tech/diseases/$id"));
   }
 
   void getShrimpPrice() async {

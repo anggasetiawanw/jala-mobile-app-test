@@ -2,6 +2,7 @@ import 'package:app_dependencies/dependecies.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jala_app/pages/jala_media/home_jala_media/controller/jala_media_controller.dart';
+import 'package:jala_app/routes/routes.dart';
 
 import '../../widgets/card_shrimp_price.dart';
 
@@ -26,16 +27,26 @@ class ShrimpPrice extends StatelessWidget {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(children: [
-                  AppAssets.images(
-                    image: AppImages.askJala,
-                    height: 100,
-                    width: 270,
+                  GestureDetector(
+                    onTap: () {
+                      CustomSnackBar.showCustomToast(message: "Image Clicked");
+                    },
+                    child: AppAssets.images(
+                      image: AppImages.askJala,
+                      height: 100,
+                      width: 270,
+                    ),
                   ),
                   const SizedBox(width: 8),
-                  AppAssets.images(
-                    image: AppImages.quizByJala,
-                    height: 100,
-                    width: 270,
+                  GestureDetector(
+                    onTap: () {
+                      CustomSnackBar.showCustomToast(message: "Image Clicked");
+                    },
+                    child: AppAssets.images(
+                      image: AppImages.quizByJala,
+                      height: 100,
+                      width: 270,
+                    ),
                   ),
                 ]),
               ),
@@ -67,6 +78,11 @@ class ShrimpPrice extends StatelessWidget {
                         (supplier) => Container(
                           margin: const EdgeInsets.only(top: 8),
                           child: CardShrimpPrice(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.detailShrimpPrice, arguments: supplier)!.then((value) {
+                                controller.getShrimpPrice();
+                              });
+                            },
                             supplier: supplier,
                             size: controller.selectedSize.value,
                           ),

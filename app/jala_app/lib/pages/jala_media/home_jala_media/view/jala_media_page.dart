@@ -1,6 +1,8 @@
 import 'package:app_dependencies/dependecies.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jala_app/pages/jala_media/home_jala_media/view/diases_news_page.dart';
+import 'package:jala_app/pages/jala_media/home_jala_media/view/shrimp_news.dart';
 
 import '../../widgets/floating_navbar_price.dart';
 import '../controller/jala_media_controller.dart';
@@ -61,7 +63,12 @@ class JalaMediaPage extends StatelessWidget {
                                 radius: const Radius.circular(8),
                                 controller: controller.scrollController,
                                 child: RefreshIndicator(
-                                  onRefresh: () => Future.delayed(const Duration(milliseconds: 200), () {}),
+                                  onRefresh: () => Future.delayed(const Duration(milliseconds: 200), () {
+                                    CustomSnackBar.showCustomSnackBar(
+                                      title: "Info",
+                                      message: "Feature For Pull To Refresh",
+                                    );
+                                  }),
                                   child: const ShrimpPrice(),
                                 ),
                               ),
@@ -73,16 +80,52 @@ class JalaMediaPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                    const Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryBlue),
-                      ),
-                    ),
-                    const Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryBlue),
-                      ),
-                    )
+                    controller.isLoadingNewsShrimp.isTrue
+                        ? const Padding(
+                            padding: EdgeInsets.only(left: 16, top: 16),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryBlue),
+                              ),
+                            ),
+                          )
+                        : RawScrollbar(
+                            thumbColor: AppColors.primaryBlue,
+                            radius: const Radius.circular(8),
+                            controller: controller.newsScrollController,
+                            child: RefreshIndicator(
+                              onRefresh: () => Future.delayed(const Duration(milliseconds: 200), () {
+                                CustomSnackBar.showCustomSnackBar(
+                                  title: "Info",
+                                  message: "Feature For Pull To Refresh",
+                                );
+                              }),
+                              child: const ShrimpNewsPage(),
+                            ),
+                          ),
+                    controller.isLoadingDiaseShrimp.isTrue
+                        ? const Padding(
+                            padding: EdgeInsets.only(left: 16, top: 16),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryBlue),
+                              ),
+                            ),
+                          )
+                        : RawScrollbar(
+                            thumbColor: AppColors.primaryBlue,
+                            radius: const Radius.circular(8),
+                            controller: controller.newsScrollController,
+                            child: RefreshIndicator(
+                              onRefresh: () => Future.delayed(const Duration(milliseconds: 200), () {
+                                CustomSnackBar.showCustomSnackBar(
+                                  title: "Info",
+                                  message: "Feature For Pull To Refresh",
+                                );
+                              }),
+                              child: const DiasesNewsPage(),
+                            ),
+                          ),
                   ],
                 ),
               ))
