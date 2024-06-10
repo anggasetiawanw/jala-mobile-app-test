@@ -1,4 +1,4 @@
-name: mis_app
+name: jala_app
 
 packages:
   - ./**
